@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tick-auth-deployment
+  labels:
+    app: tick-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tick-auth
+  template:
+    metadata:
+      labels:
+        app: tick-auth
+    spec:
+      containers:
+        - name: tick-auth
+          image: maciekkulinski/tick-auth:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tick-auth-srv
+spec:
+  selector:
+    app: tick-auth
+  ports:
+    - name: tick-auth
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
