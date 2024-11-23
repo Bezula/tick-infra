@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tick-auth-mongo-deployment
+  labels:
+    app: tick-auth-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tick-auth-mongo
+  template:
+    metadata:
+      labels:
+        app: tick-auth-mongo
+    spec:
+      containers:
+        - name: tick-auth-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tick-auth-mongo-srv
+spec:
+  selector:
+    app: tick-auth-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

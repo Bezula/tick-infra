@@ -17,6 +17,11 @@ spec:
       containers:
         - name: tick-auth
           image: maciekkulinski/tick-auth:latest
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MONGO_URI
+              value: mongodb://tick-auth-mongo-srv/tick-auth
 ---
 apiVersion: v1
 kind: Service
