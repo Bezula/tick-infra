@@ -17,3 +17,10 @@ spec:
                 name: tick-auth-srv
                 port:
                   number: 8080
+          - path: /api/users/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tick-users-srv
+                port:
+                  number: 8080

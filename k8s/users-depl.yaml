@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tick-users-deployment
+  labels:
+    app: tick-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tick-users
+  template:
+    metadata:
+      labels:
+        app: tick-users
+    spec:
+      containers:
+        - name: tick-users
+          image: maciekkulinski/tick-users:latest
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MONGO_URI
+              value: mongodb://tick-users-mongo-srv/tick-users
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tick-users-srv
+spec:
+  selector:
+    app: tick-users
+  ports:
+    - name: tick-users
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

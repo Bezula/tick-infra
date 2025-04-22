@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tick-users-mongo-deployment
+  labels:
+    app: tick-users-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tick-users-mongo
+  template:
+    metadata:
+      labels:
+        app: tick-users-mongo
+    spec:
+      containers:
+        - name: tick-users-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tick-users-mongo-srv
+spec:
+  selector:
+    app: tick-users-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
